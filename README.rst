@@ -15,45 +15,44 @@ If a project already belongs to a remote git repository, different solutions can
 
 Both methods ensure that the code is only actively development in a single location. The first method should be used if one prefers to keep the ownership of the repository, otherwise use the second.
 
+
+Mirroring a Repository
+----------------------
+
+The following 3 easy steps will create a mirror of the original repository in the organization and make sure it is kept up to date when new work is push to the original remote repository.
+
+Create Mirror Repository
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Start by creating a repository with the same name as the original within the organization on GitHub.com.
+
+Set Mirror as Remote and Install Hook
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The mirror repository need to be set up as a remote and by using the ``pre-push`` hook, the mirror is updated every time a push to the origin is executed.
+This setup can be done either automatically or manually as described below.
+
 The Automatic Setup
--------------------
-This python script takes care of the setup describe in `The Manual Setup`_ automatically.
+"""""""""""""""""""
+Using the python script ``setupRemoteMirror.py`` from within the project folder installs the setup described in `The Manual Setup`_ automatically.
 
-Work in progress... (i.e. python scripts)
+From within your project with the git repository run:
 
-        .. code:: python
+Linux Terminal
+        .. code:: bash
 
-                # Clone hook repository into the project folder
-                # and [set it to the default hook location](https://stackoverflow.com/questions/427207/can-git-hook-scripts-be-managed-along-with-the-repository)
-                # Check url to current remote git repository
-                # if Github, do 2.1.1.1
-                # else do 2.1.1.2
-                for i in range(3):
-                    print(i)
+                git clone https://github.com/DTUComputeCognitiveSystems/mirrorSetup.git
+                ./mirrorSetup/setupRemoteMirror.py
+
+TODO: add script for windows systems
+
+Multiple mirrors can be configured by adding additional organizations to the list defined in the ``setupRemoteMirror.py`` script.
 
 
 The Manual Setup
---------------------
-
+""""""""""""""""
 
 **Disclaimer**: much of the following assumes that the user are on a Linux system. 
-
-
-Mirroring a Repository
-~~~~~~~~~~~~~~~~~~~~~~
-
-The following method will create a mirror of the original repository in the organization and make sure it is kept up to date when new work is committed.
-
-
-Create a mirror repository
-""""""""""""""""""""""""""
-First create a repository with the same name as the original within the organization on GitHub.com, and then continue with the appropriate steps below:
-
-Setup mirror remote and hooks
-"""""""""""""""""""""""""""""
-
-Hosted on GitHub.com
-''''''''''''''''''''
 
 Setup the newly created repository as a remote in original repository with the name ``mirror_repo``:
 
@@ -86,18 +85,18 @@ Create the following file in the .git/hooks/ folder with the name ``pre-push``
 
 Every time when you run ``git push origin`` this script will run before the push happens, and thereby update the mirror at the same time as the origin is updated. 
 
+**Remember:** every time a new client repository is created (with ``git clone`` etc.), this ``pre-push`` hook needs to be created.
+
+Reference Original Repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 To have the mirror repository refer back to the original one, go to the mirror repository on GitHub and edit the repository description (just below the ``<> code`` tab) to say "mirror of https://github.com/[repo_owner]/[repo_name]"
 
 You are all set!
 
-**Remember:** every time a new client repository is created (with ``git clone`` etc.), this ``pre-push`` hook needs to be created.
-
-Hosted Outside GitHub.com
-'''''''''''''''''''''''''
 
 
 Transferring Ownership
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
+----------------------
+In case that the work should be owned by the organization itself, follow the instructions found here: https://help.github.com/articles/transferring-a-repository-owned-by-your-personal-account/
 
