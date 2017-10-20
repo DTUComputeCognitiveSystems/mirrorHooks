@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# This hook is called with the following parameters:
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+
+remote="$1"
+
+if [ "$remote" == "mirror_repo" ]; then
+        exit 0
+else
+        # push to mirror repository when pushing to other destinations
+        echo "pre-push hook pushing to mirror"
+        git push --mirror --quiet mirror_repo
+        echo "push to mirror completed"
+        exit 0
+fi
