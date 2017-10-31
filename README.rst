@@ -3,11 +3,13 @@
 Setting up repositories to share work within organization
 =========================================================
 
+**Disclaimer**: The following guide was developed for a remote repository hosted on GitHub and a local system with linux. Other remote hosts and OSs might require slightly different actions to achieve the same results. Especially, the automatic setup script is not suited for windows systems. Please contact phav at dtu.dk if you wish to assist in expanding the guide for other systems.
+
 .. contents::
 
-A GitHub organization can be created to collect the work of a team across many projects.
+A GitHub organization can be used to collect the work of a team across many projects.
 
-If a project already belongs to a remote git repository, different solutions can include them into the organization depending on the sharing preferences:
+If a project already belongs to a remote git repository, different solutions can include them in the organization depending on the sharing preferences:
 
 
 1. `Mirroring a Repository`_: development continues in the original repository
@@ -18,6 +20,8 @@ Both methods ensure that the code is only actively development in a single locat
 
 Mirroring a Repository
 ----------------------
+
+This method uses the git hook functionality to force a push to the mirror when a push to the remote origin is preformed.
 
 The following 3 easy steps will create a mirror of the original repository in the organization and make sure it is kept up to date when new work is push to the original remote repository.
 
@@ -44,15 +48,16 @@ Linux Terminal
                 git clone https://github.com/DTUComputeCognitiveSystems/mirrorSetup.git
                 ./mirrorSetup/setupRemoteMirror.py
 
-TODO: add script for windows systems
+- TODO: add script for windows systems
+- TODO: add script for uninstall
 
 Multiple mirrors can be configured by adding additional organizations to the list defined in the ``setupRemoteMirror.py`` script.
 
+**Remember:** every time a new client repository is created (with ``git clone`` etc.), this ``pre-push`` hook needs to be created.
 
 The Manual Setup
 """"""""""""""""
 
-**Disclaimer**: much of the following assumes that the user are on a Linux system. 
 
 Setup the newly created repository as a remote in original repository with the name ``mirror_repo``:
 
